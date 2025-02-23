@@ -1,5 +1,6 @@
 package com.example.greetingapp.controller;
 
+import com.example.greetingapp.model.Greeting;
 import com.example.greetingapp.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,16 @@ public class GreetingController {
         return greetingService.getSimpleGreeting();
     }
 
-    // ✅ New API for UC3: Personalized Greeting
     @GetMapping("/personalized")
     public String getPersonalizedGreeting(
             @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String lastName) {
         return greetingService.getPersonalizedGreeting(firstName, lastName);
+    }
+
+    // ✅ UC4: Save a Greeting
+    @PostMapping
+    public Greeting saveGreeting(@RequestParam String message) {
+        return greetingService.saveGreeting(message);
     }
 }

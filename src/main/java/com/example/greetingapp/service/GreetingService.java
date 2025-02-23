@@ -1,15 +1,23 @@
 package com.example.greetingapp.service;
 
+import com.example.greetingapp.model.Greeting;
+import com.example.greetingapp.repository.GreetingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GreetingService {
+
+    @Autowired
+    private GreetingRepository repository;
 
     public String getSimpleGreeting() {
         return "Hello, World!";
     }
 
-    // ✅ New Method for UC3: Personalized Greeting
     public String getPersonalizedGreeting(String firstName, String lastName) {
         if (firstName != null && lastName != null) {
             return "Hello, " + firstName + " " + lastName + "!";
@@ -19,5 +27,10 @@ public class GreetingService {
             return "Hello, " + lastName + "!";
         }
         return "Hello, World!";
+    }
+
+    // ✅ UC4: Save a Greeting to MySQL
+    public Greeting saveGreeting(String message) {
+        return repository.save(new Greeting(null, message));
     }
 }
