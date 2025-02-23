@@ -5,6 +5,8 @@ import com.example.greetingapp.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/greetings")
 public class GreetingController {
@@ -24,9 +26,16 @@ public class GreetingController {
         return greetingService.getPersonalizedGreeting(firstName, lastName);
     }
 
-    // ✅ UC4: Save a Greeting
     @PostMapping
     public Greeting saveGreeting(@RequestParam String message) {
         return greetingService.saveGreeting(message);
+    }
+
+    // ✅ UC5: Get Greeting by ID
+    @GetMapping("/{id}")
+    public String findGreetingById(@PathVariable Long id) {
+        return greetingService.findGreetingById(id)
+                .map(Greeting::getMessage)
+                .orElse("Greeting not found!");
     }
 }
